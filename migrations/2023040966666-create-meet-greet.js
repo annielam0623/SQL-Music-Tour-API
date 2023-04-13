@@ -17,11 +17,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      start_time: {
+      meet_start_time: {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      end_time: {
+      meet_end_time: {
         type: Sequelize.DATE,
         allowNull: false,
       },

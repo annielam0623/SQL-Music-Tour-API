@@ -20,14 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     name: {
-      tyep: DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     genre: {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    available_start_time:
+    start_time:
     {
       type: DataTypes.DATE,
       allowNull: false
