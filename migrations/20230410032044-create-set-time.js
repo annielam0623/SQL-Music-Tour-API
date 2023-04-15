@@ -3,13 +3,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('set_times', {
-      Set_time_id: {
-        allowNull: false,
+      set_time_id: {
+        type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+        primaryKey: true
       },
-      event_id: {
+       event_id: {
         type: Sequelize.INTEGER,
         allowNull: false
       },

@@ -1,9 +1,8 @@
 //DEPENDENCIES
 const { Op } = require('sequelize')
 const bands = require('express').Router()
-// const { DELETE } = require('sequelize/types/query-types')
 const db = require('../models')
-const { Band } = db
+const { Band, Meet_greet, Event, Set_time } = db
 
 //Index Route
 bands.get('/', async (req, res) => {
@@ -11,9 +10,9 @@ bands.get('/', async (req, res) => {
     try {
         const foundBands = await Band.findAll({
             where: {
-                name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%`},
+                name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%`}
             },
-        });
+        })
         res.status(200).json(foundBands)
     } catch (err) {
         console.log(err)
@@ -47,13 +46,37 @@ bands.put('/', async (req, res) => {
 })
 
 //SHOW
-bands.get('/:id', async (req, res) => {
+bands.get('/:name', async (req, res) => {
     console.log('Show Route:', req.url);
     try {
-        const foundBands = await Band.findOne({
-            where: { band_id: req.params.id }
+        const foundBand = await Band.findOne({
+            where: { name: req.params.name },
+            include: [
+            {
+                model: Meet_greet,
+                as: 'meet_greet',
+                include: {
+                    model: Event,
+                    as: 'events',
+                    where: {
+                        name: { [Op.like]: `%${req.query.event ? req.query.event : ''}%`}
+                    },
+                }
+            },
+            {
+                model: Set_time,
+                as: 'set_times',
+                include: {
+                    model: Event,
+                    as: 'events',
+                    where: {
+                        name: { [Op.like]: `%${req.query.event ? req.query.event : ''}%`}
+                    },
+                }
+            }
+        ]
         })
-        res.status(200).json(foundBands)
+        res.status(200).json(foundBand)
     } catch (err) {
         console.log(err)
         res.status(500).json({message: 'Server error'})
